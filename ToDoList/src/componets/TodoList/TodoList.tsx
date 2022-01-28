@@ -2,47 +2,58 @@ import { useState } from "react";
 import { Form } from "../Form/Form";
 import { TodoItem } from "../TodoItem/TodoItem";
 
-const defaultTodos = [
+const defaultTodos: any = [
     { id: "000", text: "First todo", completed: false },
     { id: "001", text: "Second todo", completed: true },
 ];
 
+type Todo = {
+    id: string;
+    text: string;
+    completed: boolean;
+}
+type AddNewTodo = (textInput: string) => void;
+
 export const TodoList = () => {
 
-    const [text, setText] = useState("");
+    // const [textInput, setText] = useState<string>("");
 
+    // const [todos, setTodos] = useState<Array<any>>([]);
     const [todos, setTodos] = useState(defaultTodos);
 
     const onClickDelete = (id: string) => {
-        setTodos([...todos.filter((todo) => todo.id !== id)]);    
+        setTodos([...todos.filter((todo: any) => todo.id !== id)]);    
     };
 
     const onClickComplete = (id: string) => {
         setTodos([
-            ...todos.map((todo) => 
-                todo.id === id ? { ...todo, completed: !todo.completed } : { ...todo }
+            ...todos.map((todo: Todo) => 
+              todo.id === id ? { ...todo, completed: !todo.completed } : {...todo }
             )
-         ]);        
+          ])
     };
 
-    const addNewTodo = (text: string) => {
-        if (text) {
+    
+    const addNewTodo: AddNewTodo = (textInput: string) => {
+        if(textInput) {
             const newItem = {
-                id: Math.random().toString(36),
-                task: text,
-                complete: false,
+              id: Math.random().toString(36),
+              text: textInput,
+              completed: false,
             }
-        };
-    };
+            setTodos([...todos, newItem])
+          }
+    };    
 
     return (
         <div
             style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
         >
-            <Form 
-                addNewTodo={addNewTodo} 
+            <Form
+                addNewTodo={() => addNewTodo}
+                
             />
-            {todos.map((item) => {
+            {todos.map((item: Todo) => {
                 return (
                     <TodoItem
                         key={item.id}

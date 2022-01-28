@@ -12,7 +12,7 @@ export const TodoItem = ({text, completed, onDelete, onComplete}: IProps) => {
         <div style={{ display: "flex" }}>
             <Button text="&#10003;" onClick={onComplete}/>
             <p style={{ textDecoration: completed ? "line-through" : "none" }}>{text}</p>
-            <Button text="x" onClick={onDelete}/>
+            <Button text="X" onClick={onDelete}/>
         </div>
     );
 };

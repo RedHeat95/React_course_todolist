@@ -1,4 +1,5 @@
 import { ChangeEventHandler } from "react";
+import styles from "./Input.module.css"
 
 interface IProps {
   value: string;
@@ -6,5 +7,5 @@ interface IProps {
 }
 
 export const Input = ({ onChange, value }: IProps) => {
-  return <input onChange={onChange} value={value} />;
+  return <input className={styles.input} onChange={onChange} value={value} type="text"/>;
 };
