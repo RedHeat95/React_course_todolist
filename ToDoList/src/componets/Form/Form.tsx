@@ -1,30 +1,24 @@
-import React, { useState, ChangeEvent, FormEvent} from "react";
-
+import { ChangeEvent } from "react";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
 
 interface IProps {
+    text: string;
+    setText: (value: string) => void;
     addNewTodo: () => void;
 }
 
-export const Form = ({ addNewTodo }: IProps) => {
-    const [textInput, setText] = useState<string>("");
+export const Form = ({ text, setText, addNewTodo }: IProps) => {
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value);
-    }
-
-    const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        // addNewTodo(textInput)
-        setText("");
     }
 
     return (
         <div>
             <Input 
-                value={textInput}
-                onChange={handleChange}
+                value={text}
+                onChange={onChange}
             />
             <Button
                 text="Добавить"

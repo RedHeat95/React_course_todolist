@@ -2,68 +2,88 @@ import { useState } from "react";
 import { Form } from "../Form/Form";
 import { TodoItem } from "../TodoItem/TodoItem";
 
-const defaultTodos: any = [
-    { id: "000", text: "First todo", completed: false },
-    { id: "001", text: "Second todo", completed: true },
-];
-
-type Todo = {
+interface ITodoItem {
     id: string;
     text: string;
+    time: string;
     completed: boolean;
 }
-type AddNewTodo = (textInput: string) => void;
 
 export const TodoList = () => {
+    const [text, setText] = useState<string>("");
 
-    // const [textInput, setText] = useState<string>("");
+    const [todos, setTodos] = useState<ITodoItem[]>([]);
+    
+    const addNewTodo = () => {
+        if (text !== "") {
+            const date = new Date();
+            const newTodo = {
+                id: "id" + Math.random().toString(16).slice(2),
+                text: text,
+                completed: false,
+                time: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`
+            };    
+            const newTodos = [...todos, newTodo];
+    
+            setTodos(newTodos);
+    
+            setText("")
 
-    // const [todos, setTodos] = useState<Array<any>>([]);
-    const [todos, setTodos] = useState(defaultTodos);
-
-    const onClickDelete = (id: string) => {
-        setTodos([...todos.filter((todo: any) => todo.id !== id)]);    
+        } else {
+            alert("Введите что-нибудь")
+        }        
     };
 
     const onClickComplete = (id: string) => {
-        setTodos([
-            ...todos.map((todo: Todo) => 
-              todo.id === id ? { ...todo, completed: !todo.completed } : {...todo }
-            )
-          ])
+        const newTodos = todos.map(item => {
+            if (item.id === id) {
+                item.completed = !item.completed;
+            }
+            return item;
+        });
+        setTodos(newTodos);
     };
 
+    const onClickDelete = (id: string) => {
+        setTodos([...todos.filter((todo) => todo.id !== id)]);    
+    };
     
-    const addNewTodo: AddNewTodo = (textInput: string) => {
-        if(textInput) {
-            const newItem = {
-              id: Math.random().toString(36),
-              text: textInput,
-              completed: false,
-            }
-            setTodos([...todos, newItem])
-          }
-    };    
-
     return (
         <div
             style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
         >
+            <h1>ToDoList</h1>
+
             <Form
-                addNewTodo={() => addNewTodo}
-                
+                addNewTodo={addNewTodo}
+                text={text} 
+                setText={setText}
             />
-            {todos.map((item: Todo) => {
+
+            {todos.length === 0 ? 
+                <p>Начни уже делать что-нибудь</p> : 
+                null
+            }
+            {todos.map((item) => {
                 return (
                     <TodoItem
                         key={item.id}
                         text={item.text}
+                        time={item.time}
+                        completed={item.completed}
                         onDelete={() => onClickDelete(item.id)}
                         onComplete={() => onClickComplete(item.id)}
-                        completed={item.completed}
                     />
                 );
             })}
+            <p>Всего дел: {todos.length}</p>
+            <p>Выполненые: {todos.reduce((prev, curr) => {
+                    if (curr.completed) {
+                        return prev + 1;
+                    }
+                    return prev;
+                }, 0)}
+            </p>
         </div>
     );
 };
