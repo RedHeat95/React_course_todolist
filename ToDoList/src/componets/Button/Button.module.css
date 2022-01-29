@@ -8,16 +8,15 @@ button {
 }
 
 .btn {
-    padding: 16px 7px;
+    padding: 1rem 0.5rem;
     border: none;
     border-radius: 0 4px 4px 0;
-    cursor: pointer;
     outline: none;
     background: linear-gradient(
       90deg,
       rgba(93, 12, 255, 1) 0%,
       rgba(155, 0, 250, 1) 100%
     );
-    color: #fff;
+    color: #ffffff;
     text-transform: capitalize;
 }

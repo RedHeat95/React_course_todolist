@@ -1,11 +1,12 @@
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, KeyboardEvent } from "react";
 import styles from "./Input.module.css"
 
 interface IProps {
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export const Input = ({ onChange, value }: IProps) => {
-  return <input className={styles.input} onChange={onChange} value={value} type="text"/>;
+export const Input = ({ value, onChange, onKeyDown }: IProps) => {
+  return <input className={styles.input} onChange={onChange} onKeyDown={onKeyDown} value={value} type="text"/>;
 };

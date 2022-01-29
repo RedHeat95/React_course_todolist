@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./TodoList.module.css";
 import { Form } from "../Form/Form";
 import { TodoItem } from "../TodoItem/TodoItem";
 
@@ -27,10 +28,30 @@ export const TodoList = () => {
     
             setTodos(newTodos);
     
-            setText("")
+            setText("");
 
         } else {
-            alert("Введите что-нибудь")
+            alert("Введите что-нибудь");
+        }        
+    };
+
+    const addNewTodoKey = () => {
+        if (text !== "") {
+            const date = new Date();
+            const newTodo = {
+                id: "id" + Math.random().toString(16).slice(2),
+                text: text,
+                completed: false,
+                time: `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`
+            };    
+            const newTodos = [...todos, newTodo];
+    
+            setTodos(newTodos);
+    
+            setText("");
+
+        } else {
+            alert("Введите что-нибудь");
         }        
     };
 
@@ -47,23 +68,47 @@ export const TodoList = () => {
     const onClickDelete = (id: string) => {
         setTodos([...todos.filter((todo) => todo.id !== id)]);    
     };
+
+    const completedCount = todos.reduce(
+        (prev, curr) => {
+          if (curr.completed) {
+            return prev + 1;
+          }
+    
+          return prev;
+        }, 0
+    );
     
     return (
-        <div
-            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-        >
-            <h1>ToDoList</h1>
+        <div className={styles.todoList}>
+
+            <h1 className={styles.todoName}>JUST DO IT!!!</h1>
+
+            <div className={styles.rezult}>
+                <p>Всего дел: {todos.length}</p>
+                <p>Выполненые: {completedCount}
+                </p>
+            </div>
 
             <Form
-                addNewTodo={addNewTodo}
                 text={text} 
                 setText={setText}
+                addNewTodo={addNewTodo}
+                addNewTodoKey={addNewTodoKey}
             />
-
-            {todos.length === 0 ? 
-                <p>Начни уже делать что-нибудь</p> : 
-                null
-            }
+            <div>
+                {todos.length === 0 ? (
+                    <p style={{ color: "#008000" }}>Начни уже делать что-нибудь!!!</p> ) : null
+                }
+                {todos.length !== 0 &&
+                    completedCount === 0 ? (
+                    <p style={{ color: "#ff0000" }}>
+                        У тебя нет выполненых задач.
+                    </p>
+                    ) : null
+                }
+            </div>
+            
             {todos.map((item) => {
                 return (
                     <TodoItem
@@ -76,14 +121,6 @@ export const TodoList = () => {
                     />
                 );
             })}
-            <p>Всего дел: {todos.length}</p>
-            <p>Выполненые: {todos.reduce((prev, curr) => {
-                    if (curr.completed) {
-                        return prev + 1;
-                    }
-                    return prev;
-                }, 0)}
-            </p>
         </div>
     );
 };

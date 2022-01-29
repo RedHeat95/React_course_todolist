@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./TodoItem.module.css";
 import { Button } from "../Button/Button";
 
 interface IProps {
@@ -17,9 +18,17 @@ export const TodoItem = ({text, time, completed, onDelete, onComplete }: IProps)
         setShowTime(!showTime)
     }
     return ( 
-        <div style={{ display: "flex", position: "relative"}}>
+        <div className={styles.todoItem}>
             <Button text="&#10003;" onClick={onComplete}/>
-            <p style={{ textDecoration: completed ? "line-through" : "none" }} onClick={toggleShowTime}>{text} {showTime ? <p>{time}</p> : null}</p>
+            <p 
+                style={{ 
+                    width: "100%", 
+                    textDecoration: completed ? "line-through" : "none" }} 
+                    onClick={toggleShowTime}
+            >
+                {text} 
+                {showTime ? <p>{time}</p> : null}
+            </p>
             <Button text="X" onClick={onDelete}/>
         </div>
     );
