@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.todoItem {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    width: 20rem;
+    margin-top: 0.5rem;
+    padding: 3px 0;
+    background: linear-gradient(
+      90deg,
+      rgba(93, 12, 255, 1) 0%,
+      rgba(155, 0, 250, 1) 100%
+    );
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
